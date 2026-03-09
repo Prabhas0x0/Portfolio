@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prabhas | Portfolio</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+
+    /* colors I'm using throughout the site */
+    :root {
+      --white: #ffffff;
+      --light-gray: #f5f5f7;
+      --off-white: #fafafa;
+      --black: #1d1d1f;
+      --gray: #6e6e73;
+      --light: #ababaf;
+      --blue: #0071e3;
+      --blue-dark: #0062c3;
+      --border-color: #e0e0e5;
+      --card-radius: 22px;
+    }
+
+    /* basic reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background-color: var(--light-gray);
+      color: var(--black);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    /* container to center content */
+    .container {
+      max-width: 1020px;
+      margin: 0 auto;
+      padding: 0 30px;
+    }
+
+    /* all sections get same vertical spacing */
+    .section {
+      padding: 160px 0;
+    }
+
+    /* CSS-only fade in animation */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in {
+      animation: fadeUp 0.6s ease both;
+    }
+
+    /* stagger delays for siblings */
+    .fade-in:nth-child(1) { animation-delay: 0.05s; }
+    .fade-in:nth-child(2) { animation-delay: 0.12s; }
+    .fade-in:nth-child(3) { animation-delay: 0.19s; }
+    .fade-in:nth-child(4) { animation-delay: 0.26s; }
+    .fade-in:nth-child(5) { animation-delay: 0.33s; }
+    .fade-in:nth-child(6) { animation-delay: 0.40s; }
+
+
+    /* ===== NAVBAR ===== */
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 999;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .nav-container {
+      max-width: 1020px;
+      margin: 0 auto;
+      padding: 0 30px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--black);
+      letter-spacing: -0.2px;
+    }
+
+    .logo:hover {
+      color: var(--blue);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 35px;
+    }
+
+    .nav-links a {
+      font-size: 13px;
+      color: var(--gray);
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--black);
+    }
+
+
+    /* ===== HERO ===== */
+
+    .hero {
+      background: var(--white);
+      padding: 200px 0 170px;
+      text-align: center;
+    }
+
+    .hero-content {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* small label above name */
+    .hero-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--light);
+      display: block;
+      margin-bottom: 38px;
+    }
+
+    .hero-name {
+      font-size: clamp(54px, 9vw, 100px);
+      font-weight: 700;
+      letter-spacing: -5px;
+      line-height: 1;
+      color: var(--black);
+    }
+
+    /* thin line between name and tagline */
+    .divider {
+      width: 36px;
+      height: 1px;
+      background: var(--border-color);
+      margin: 32px auto;
+    }
+
+    .hero-tagline {
+      font-size: 18px;
+      font-weight: 300;
+      color: var(--gray);
+      line-height: 1.7;
+      max-width: 400px;
+      margin: 0 auto 48px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* reusable button styles */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 13px 28px;
+      border-radius: 100px;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: background 0.2s, opacity 0.2s, transform 0.1s;
+      white-space: nowrap;
+    }
+
+    /* CSS-only press animation */
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    .btn-blue {
+      background: var(--blue);
+      color: white;
+    }
+
+    .btn-blue:hover {
+      background: var(--blue-dark);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--gray);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-outline:hover {
+      background: #f2f2f4;
+    }
+
+    .btn-dark {
+      background: var(--black);
+      color: white;
+      font-size: 13px;
+      padding: 8px 18px;
+    }
+
+    .btn-dark:hover {
+      opacity: 0.8;
+    }
+
+    .btn-full {
+      width: 100%;
+    }
+
+
+    /* ===== ABOUT ===== */
+
+    .about {
+      background: var(--light-gray);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 110px;
+      align-items: center;
+    }
+
+    /* small uppercase label for sections */
+    .section-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--light);
+      margin-bottom: 18px;
+    }
+
+    .section-title {
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 600;
+      letter-spacing: -1.5px;
+      line-height: 1.12;
+      color: var(--black);
+      margin-bottom: 24px;
+    }
+
+    .about-text p {
+      font-size: 17px;
+      color: var(--gray);
+      line-height: 1.9;
+      margin-bottom: 18px;
+      max-width: 54ch;
+    }
+
+    /* stats row at the bottom of about */
+    .stats {
+      display: flex;
+      gap: 56px;
+      margin-top: 48px;
+      padding-top: 48px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .stat-number {
+      display: block;
+      font-size: 38px;
+      font-weight: 700;
+      letter-spacing: -2px;
+      color: var(--black);
+      line-height: 1;
+    }
+
+    .stat-label {
+      display: block;
+      font-size: 12px;
+      color: var(--light);
+      margin-top: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    /* placeholder for photo */
+    .photo-placeholder {
+      width: 100%;
+      aspect-ratio: 4/5;
+      background: #ebebef;
+      border-radius: var(--card-radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--light);
+      font-size: 13px;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.07);
+    }
+
+
+    /* ===== SKILLS ===== */
+
+    .skills {
+      background: var(--off-white);
+    }
+
+    .skills-header {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+
+    /* 2 column list layout for skills */
+    .skills-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .skill-item {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 26px 18px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    /* remove border from last row */
+    .skill-item:nth-last-child(-n+2) {
+      border-bottom: none;
+    }
+
+    .skill-emoji {
+      font-size: 22px;
+      width: 32px;
+      text-align: center;
+      opacity: 0.85;
+    }
+
+    .skill-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--black);
+      margin-bottom: 3px;
+    }
+
+    .skill-desc {
+      font-size: 12px;
+      color: var(--light);
+    }
+
+
+    /* ===== PROJECTS ===== */
+
+    .projects {
+      background: var(--white);
+    }
+
+    .projects-header {
+      text-align: center;
+      margin-bottom: 72px;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    /* first card takes full row */
+    .project-card:first-child {
+      grid-column: 1 / -1;
+    }
+
+    .project-card:first-child .project-img {
+      aspect-ratio: 2.6/1;
+    }
+
+    .project-card {
+      background: var(--white);
+      border-radius: var(--card-radius);
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0, 0, 0, 0.04);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.09), 0 0 0 1px rgba(0, 0, 0, 0.04);
+    }
+
+    /* coming soon cards look different */
+    .project-card.coming-soon {
+      background: var(--light-gray);
+      box-shadow: none;
+      border: 1px solid var(--border-color);
+    }
+
+    .project-img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: #ebebef;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: var(--light);
+      object-fit: cover;
+      display: block;
+    }
+
+    /* featured card image — wider crop */
+    .project-card:first-child .project-img {
+      aspect-ratio: 2.6/1;
+    }
+
+    .project-card.coming-soon .project-img {
+      background: #f2f2f5;
+    }
+
+    .project-info {
+      padding: 28px;
+    }
+
+    /* tech stack tags */
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .tag {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--gray);
+      background: #f2f2f5;
+      padding: 4px 10px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+
+    .project-title {
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+      color: var(--black);
+      margin-bottom: 10px;
+    }
+
+    .project-desc {
+      font-size: 14px;
+      color: var(--gray);
+      line-height: 1.75;
+      margin-bottom: 22px;
+    }
+
+    .project-links {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .ghost-link {
+      font-size: 13px;
+      color: var(--blue);
+      font-weight: 500;
+      transition: opacity 0.2s;
+    }
+
+    .ghost-link:hover {
+      opacity: 0.65;
+    }
+
+    .coming-text {
+      font-size: 11px;
+      color: var(--light);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+
+    /* ===== CONTACT ===== */
+
+    .contact {
+      background: var(--light-gray);
+    }
+
+    .contact-wrapper {
+      max-width: 520px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .contact-sub {
+      font-size: 16px;
+      font-weight: 300;
+      color: var(--gray);
+      line-height: 1.8;
+      margin-top: 16px;
+      margin-bottom: 48px;
+    }
+
+    form {
+      text-align: left;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--gray);
+      margin-bottom: 7px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      background: var(--white);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      color: var(--black);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      padding: 12px 16px;
+      outline: none;
+      resize: vertical;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: var(--light);
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(0, 113, 227, 0.08);
+    }
+
+    /* CSS-only form validation feedback */
+    .form-group input:user-invalid,
+    .form-group textarea:user-invalid {
+      border-color: #d93025;
+      box-shadow: 0 0 0 3px rgba(217, 48, 37, 0.08);
+    }
+
+    .form-message {
+      text-align: center;
+      font-size: 13px;
+      margin-top: 14px;
+      min-height: 20px;
+    }
+
+
+    /* ===== FOOTER ===== */
+
+    footer {
+      background: var(--white);
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      padding: 40px 0;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* each social link as a pill */
+    .footer-links a {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--black);
+      background: var(--light-gray);
+      border: 1px solid var(--border-color);
+      padding: 7px 14px;
+      border-radius: 100px;
+      transition: background 0.2s, color 0.2s, border-color 0.2s;
+    }
+
+    .footer-links a:hover {
+      background: var(--black);
+      color: var(--white);
+      border-color: var(--black);
+    }
+
+    .footer-links a svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
+
+    .footer-copy {
+      font-size: 12px;
+      color: var(--light);
+    }
+
+
+    /* ===== RESPONSIVE ===== */
+
+    @media (max-width: 880px) {
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 60px;
+      }
+      .photo-placeholder {
+        max-width: 380px;
+      }
+      .skills-list {
+        grid-template-columns: 1fr;
+      }
+      /* fix border on single column layout */
+      .skill-item:nth-last-child(-n+2) {
+        border-bottom: 1px solid var(--border-color);
+      }
+      .skill-item:last-child {
+        border-bottom: none;
+      }
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+      .project-card:first-child {
+        grid-column: auto;
+      }
+      .project-card:first-child .project-img {
+        aspect-ratio: 16/9;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .section {
+        padding: 100px 0;
+      }
+      .hero {
+        padding: 140px 0 120px;
+      }
+      .container,
+      .nav-container {
+        padding: 0 20px;
+      }
+      .nav-links {
+        gap: 20px;
+      }
+      .nav-links a {
+        font-size: 12px;
+      }
+      .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      .stats {
+        gap: 30px;
+        flex-wrap: wrap;
+      }
+      .footer-inner {
+        flex-direction: column;
+        text-align: center;
+      }
+      .footer-links {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- navbar -->
+  <nav>
+    <div class="nav-container">
+      <a href="#hero" class="logo">Prabhas</a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+
+  <!-- hero section -->
+  <section class="hero" id="hero">
+    <div class="hero-content fade-in">
+
+      <span class="hero-label">B.Tech CSE &nbsp;·&nbsp; First Year</span>
+
+      <h1 class="hero-name">Prabhas</h1>
+
+      <div class="divider"></div>
+
+      <p class="hero-tagline">
+        Computer Science student focused on fundamentals,<br>
+        clean code, and building things that work well.
+      </p>
+
+      <div class="hero-buttons">
+        <a href="#projects" class="btn btn-blue">View My Work</a>
+        <a href="#contact" class="btn btn-outline">Get in Touch</a>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- about section -->
+  <section class="about section" id="about">
+    <div class="container">
+      <div class="about-grid">
+
+        <!-- left: text -->
+        <div class="about-text fade-in">
+          <span class="section-label">About</span>
+          <h2 class="section-title">Learning the right things.<br>Building along the way.</h2>
+
+          <p>
+            I'm Prabhas, a first-year B.Tech student in Computer Science Engineering.
+            I got into programming because I wanted to understand how things work —
+            and then build my own versions of them.
+          </p>
+          <p>
+            My focus right now is on foundations: HTML, CSS, Java, and data structures.
+            I think depth matters more than breadth, especially early on.
+            Finishing semester one with a 9.4 CGPA tells me the approach is working.
+          </p>
+          <p>
+            I care about how software looks and feels, not only whether it runs.
+            That's why my first real project was a music player —
+            something I'd actually want to open every day.
+          </p>
+
+          <div class="stats">
+            <div class="stat">
+              <span class="stat-number">9.4</span>
+              <span class="stat-label">CGPA · Sem 1</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">29</span>
+              <span class="stat-label">Projects Done</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">4</span>
+              <span class="stat-label">Core skills</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- right: photo -->
+        <div class="fade-in">
+          <div class="photo-placeholder"><img src="prabhas.jpg" alt="Prabhas" style="width:100%;border-radius:22px;"></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- skills section -->
+  <section class="skills section" id="skills">
+    <div class="container">
+
+      <div class="skills-header fade-in">
+        <span class="section-label">Toolkit</span>
+        <h2 class="section-title">What I work with</h2>
+      </div>
+
+      <div class="skills-list">
+
+        <div class="skill-item fade-in">
+          <span class="skill-emoji">🌐</span>
+          <div>
+            <div class="skill-name">HTML</div>
+            <div class="skill-desc">Semantic structure & web foundations</div>
+          </div>
+        </div>
+
+        <div class="skill-item fade-in">
+          <span class="skill-emoji">🎨</span>
+          <div>
+            <div class="skill-name">CSS</div>
+            <div class="skill-desc">Layouts, styling & responsive design</div>
+          </div>
+        </div>
+
+        <div class="skill-item fade-in">
+          <span class="skill-emoji">☕</span>
+          <div>
+            <div class="skill-name">Java</div>
+            <div class="skill-desc">Object-oriented programming & logic</div>
+          </div>
+        </div>
+
+        <div class="skill-item fade-in">
+          <span class="skill-emoji">🧩</span>
+          <div>
+            <div class="skill-name">Data Structures & Algorithms</div>
+            <div class="skill-desc">Arrays, linked lists, sorting & problem-solving</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- projects section -->
+  <section class="projects section" id="projects">
+    <div class="container">
+
+      <div class="projects-header fade-in">
+        <span class="section-label">Selected Work</span>
+        <h2 class="section-title">Things I've built</h2>
+      </div>
+
+      <div class="projects-grid">
+
+        <!-- main project -->
+        <article class="project-card fade-in">
+          <img src="moodtunes.png" alt="Music Player" class="project-img">
+          <div class="project-info">
+            <div class="tags">
+              <span class="tag">HTML</span>
+              <span class="tag">CSS</span>
+              <span class="tag">JavaScript</span>
+            </div>
+            <h3 class="project-title">Web Music Player</h3>
+            <p class="project-desc">
+              A music player I built from scratch — focused on clean UI and smooth
+              interaction. Designed my own way, not copied from anywhere. Has custom
+              controls, a playlist view, and a layout that actually feels good to use.
+            </p>
+            <div class="project-links">
+              <a href="mood-music-explorer.html" class="btn btn-dark">Live Demo</a>
+              <a href="#" class="ghost-link">GitHub →</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- class projects card -->
+        <article class="project-card fade-in">
+          <div class="project-img" style="background: linear-gradient(135deg, #eef4ff 0%, #f3f0ff 50%, #fff4e8 100%); display:flex; align-items:center; justify-content:center; gap: 14px; font-size: 36px;">
+            🧮 🎯 📊
+          </div>
+          <div class="project-info">
+            <div class="tags">
+              <span class="tag">HTML</span>
+              <span class="tag">CSS</span>
+              <span class="tag">JavaScript</span>
+            </div>
+            <h3 class="project-title">Class Projects</h3>
+            <p class="project-desc">
+              A collection of 29 projects built during Sem 1 — HTML & CSS layouts, forms, tribute pages, and JavaScript interactive apps. Each one taught me something new.
+            </p>
+            <div class="project-links">
+              <a href="projects.html" class="btn btn-dark">View All →</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-card coming-soon fade-in">
+          <div class="project-img">
+            <span class="coming-text">Coming Soon</span>
+          </div>
+          <div class="project-info">
+            <div class="tags">
+              <span class="tag">HTML</span>
+              <span class="tag">CSS</span>
+            </div>
+            <h3 class="project-title">Next Project</h3>
+            <p class="project-desc">More stuff on the way. Each semester I try to build something new.</p>
+            <div class="project-links">
+              <span class="coming-text">In progress</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- contact section -->
+  <section class="contact section" id="contact">
+    <div class="container">
+      <div class="contact-wrapper fade-in">
+
+        <span class="section-label">Contact</span>
+        <h2 class="section-title">Let's talk.</h2>
+        <p class="contact-sub">
+          Whether it's an internship, a side project, or just a question —<br>
+          my inbox is open. I usually reply within a day.
+        </p>
+
+        <form id="contactForm" action="mailto:your@email.com" method="POST" enctype="text/plain">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" placeholder="Your full name" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="your@email.com" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" name="subject" placeholder="What's this about?">
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" placeholder="Tell me about your idea or opportunity..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-blue btn-full">Send Message</button>
+        </form>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- footer -->
+  <footer>
+    <div class="container footer-inner">
+
+      <div class="footer-links">
+
+        <a href="https://www.linkedin.com/in/prabhas-chary-66a31b396" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/Prabhas0x0" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.codechef.com/users/prabhas_cse_79" target="_blank" rel="noopener">CodeChef</a>
+
+      </div>
+
+      <p class="footer-copy">© 2026 Prabhas</p>
+    </div>
+  </footer>
+
+</body>
+</html>

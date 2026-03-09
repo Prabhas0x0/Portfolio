@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Class Projects | Prabhas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --white: #ffffff;
+      --light-gray: #f5f5f7;
+      --black: #1d1d1f;
+      --gray: #6e6e73;
+      --light: #ababaf;
+      --blue: #0071e3;
+      --border-color: #e0e0e5;
+      --card-radius: 16px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--light-gray);
+      color: var(--black);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    /* topbar */
+    .topbar {
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+      padding: 0 30px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 99;
+    }
+
+    .back-link {
+      font-size: 13px;
+      color: var(--blue);
+      text-decoration: none;
+      font-weight: 500;
+      transition: opacity 0.2s;
+    }
+    .back-link:hover { opacity: 0.7; }
+
+    .topbar-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--black);
+    }
+
+    /* page header */
+    .page-header {
+      text-align: center;
+      padding: 72px 20px 52px;
+    }
+
+    .page-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--light);
+      display: block;
+      margin-bottom: 14px;
+    }
+
+    .page-title {
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 700;
+      letter-spacing: -2px;
+      color: var(--black);
+      margin-bottom: 12px;
+    }
+
+    .page-sub {
+      font-size: 15px;
+      font-weight: 300;
+      color: var(--gray);
+    }
+
+    /* section wrapper */
+    .projects-section {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 0 24px 100px;
+    }
+
+    /* section header */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+      margin-top: 56px;
+    }
+
+    .section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 16px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .badge-htmlcss { background: #e8f0ff; color: #2d5be3; }
+    .badge-js      { background: #fffbe0; color: #8a6e00; }
+
+    .section-count {
+      font-size: 12px;
+      color: var(--light);
+      white-space: nowrap;
+    }
+
+    .section-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border-color);
+    }
+
+    /* grids */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .grid-js {
+      grid-template-columns: repeat(5, 1fr);
+    }
+
+    /* card */
+    .card {
+      background: var(--white);
+      border-radius: var(--card-radius);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05), 0 0 0 1px rgba(0,0,0,0.04);
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.04);
+    }
+
+    .card:active { transform: scale(0.97); }
+
+    .card-icon {
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+    }
+
+    .card-body {
+      padding: 12px 14px 16px;
+      border-top: 1px solid var(--border-color);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 4px;
+      letter-spacing: -0.1px;
+    }
+
+    .card-desc {
+      font-size: 11px;
+      color: var(--gray);
+      line-height: 1.6;
+      flex: 1;
+      margin-bottom: 10px;
+    }
+
+    .card-open {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--blue);
+    }
+
+    /* icon bg colors */
+    .bg-blue   { background: #eef4ff; }
+    .bg-orange { background: #fff4e8; }
+    .bg-green  { background: #edfff5; }
+    .bg-red    { background: #fff0f0; }
+    .bg-purple { background: #f3f0ff; }
+    .bg-yellow { background: #fffbe8; }
+    .bg-pink   { background: #fff0f8; }
+    .bg-teal   { background: #e8fffc; }
+    .bg-gray   { background: #f2f2f5; }
+    .bg-lime   { background: #f3ffe8; }
+    .bg-indigo { background: #eef0ff; }
+    .bg-rose   { background: #fff0f2; }
+    .bg-amber  { background: #fffaeb; }
+    .bg-sky    { background: #e8f7ff; }
+
+    @media (max-width: 860px) {
+      .grid     { grid-template-columns: repeat(3, 1fr); }
+      .grid-js  { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 560px) {
+      .grid     { grid-template-columns: repeat(2, 1fr); }
+      .grid-js  { grid-template-columns: repeat(2, 1fr); }
+      .topbar   { padding: 0 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <a href="portfolioo.html" class="back-link">← Back to Portfolio</a>
+    <span class="topbar-title">Class Projects</span>
+    <span></span>
+  </div>
+
+  <div class="page-header">
+    <span class="page-label">B.Tech CSE · Sem 1</span>
+    <h1 class="page-title">Class Projects</h1>
+    <p class="page-sub">Everything I built while learning — organized by technology.</p>
+  </div>
+
+  <div class="projects-section">
+
+    <!-- ===== HTML & CSS ===== -->
+    <div class="section-header">
+      <span class="section-badge badge-htmlcss">🌐 HTML &amp; CSS</span>
+      <span class="section-count">24 projects</span>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="grid">
+
+      <a class="card" href="projects/animationcard.html" target="_blank">
+        <div class="card-icon bg-purple">✨</div>
+        <div class="card-body">
+          <div class="card-title">Animation Card</div>
+          <div class="card-desc">CSS animated card with hover effects.</div>
+          <span class="card-open">Open →</span>
+        </div>
+      </a>
+
+      <a class="card" href="projects/barca.html" target="_blank">
+        <div class="card-icon bg-blue">🔵🔴</div>
+        <div class="card-body">
+          <div class="card-title">Barca Page</div>
+          <div class="card-desc">FC Barcelona fan page with HTML & CSS.</div>
+          <span class="card-open">Open →</span>
+        </div>
+      </a>
+
+      <a class="card" href="projects/box.html" target="_blank">
+        <div class="card-icon bg-gray">📦</div>
+        <div class="card-body">
+          <div class="card-title">Box Model</div>
+          <div class="card-desc">Visual demo of CSS margins, padding & borders.</div>
+          <span class="card-open">Open →</span>
+        </div>
+      </a>
+
+      <a class="card" href="projects/datatable.html" target="_blank">
+        <div class="card-icon bg-red">📊</div>
+        <div class="card-body">
+          <div class="card-title">Data Table</div>
+          <div class="card-desc">Styled HTML table with rows and columns.</div>
+          <span class="card-open">Open →</span>
+        </div>
+      </a>
+
+      <a class="card" href="projects/fcbarcelona.html" target="_blank">
+        <div class="card-icon bg-indigo">⚽</div>
+        <div class="card-body">
+          <div class="card-title">FC Barcelona</div>
+          <div class="card-desc">Full club page layout with HTML and CSS.</div>
+          <span class="card-open">Open →</span>
+        </div>
+      </a>
+
+      <a class="card" href="projects/Form.html" target="_blank">
+        <div class="card-icon bg-green">📝</div>
+        <div class="card-body">
+          <div class="card-title">Form</div>
+          <div class="card-desc">Styled HTML form with multiple input types.</div>
+          <span class="card-open">Open →</span>
+        </div>
+      </a>
+
+      <a class="card" href="projects/JavaScript.html" target="_blank">
+        <div class="card-icon bg-yellow">📄</div>
+        <div class="card-body">
+          <div class="card-title">JavaScript Page</div>
+          <div class="card-desc">HTML page exploring JS concepts and notes.</div>
+          <span class="card-open">Open →</span>
+        </div>
+      </a>
+
+      <a class="card" href="projects/klhpage.html" target="_blank">
+        <div class="card-icon bg-teal">🏫</div>
+        <div class="card-body">
+          <div class="card-title">KLH Page</div>
+          <div class="card-desc">College info page with structured HTML & CSS.</div>
+          <span class="card-open">Open →</span>
+        </div>
+      </a>
+
+      <a class="card" href="projects/krishna.html" target="_blank">
+        <div class="card-icon bg-orange">🪈</div>
+        <div class="card-body">
+          <div class="card-title">Krishna Page</div>
+          <div class="card-desc">A themed tribute page using HTML and CSS.</div>
+          <span class="card-open">Open →</span>
+        </div>
+      </a>
+
+      <a class="card" href="projects/Main.html" target="_blank">
+        <div class="card-icon bg-sky">🏠</div>
+        <div class="card-body">
+          <div class="card-title">Main Page</div>
+          <div class="card-desc">Landing page layout practicing HTML structure.</div>
+          <span class="card-open">Open →</span>
+        </div>
+      </a>
+
+      <a class="card" href="projects/Menu.html" target="_blank">
+        <div class="card-icon bg-lime">🍽️</div>
+        <div class="card-body">
+          <div class="card-title">Menu</div>
+          <div class="card-desc">Restaurant-style menu page with CSS styling.</div>
+          <span class="card-open">Open →</span>
+        </div>
+      </a>
+
+      <a class="card" href="projects/miniportfolio.html" target="_blank">
+        <div class="card-icon bg-purple">🧑‍💻</div>
+        <div class="card-body">
+          <div class="card-title">Mini Portfolio</div>
+          <div class="card-desc">Early portfolio page — where it all started.</div>
+          <span class="card-open">Open →</span>
+        </div>
+      </a>
+
+      <a class="card" href="projects/motivation.html" target="_blank">
+        <div class="card-icon bg-rose">💪</div>
+        <div class="card-body">
+          <div class="card-title">Motivation Page</div>
+          <div class="card-desc">Motivational quotes page with custom CSS.</div>
+          <span class="card-open">Open →</span>
+        </div>
+      </a>
+
+      <a class="card" href="projects/navigation.html" target="_blank">
+        <div class="card-icon bg-blue">🔗</div>
+        <div class="card-body">
+          <div class="card-title">Navigation</div>
+          <div class="card-desc">Navbar layout with links and CSS styling.</div>
+          <span class="card-open">Open →</span>
+        </div>
+      </a>
+
+      <a class="card" href="projects/OrederedHomeWork.html" target="_blank">
+        <div class="card-icon bg-amber">📋</div>
+        <div class="card-body">
+          <div class="card-title">Ordered Homework</div>
+          <div class="card-desc">Ordered and unordered list practice.</div>
+          <span class="card-open">Open →</span>
+        </div>
+      </a>
+
+      <a class="card" href="projects/productlauncher.html" target="_blank">
+        <div class="card-icon bg-green">🚀</div>
+        <div class="card-body">
+          <div class="card-title">Product Launcher</div>
+          <div class="card-desc">Product launch landing page with HTML & CSS.</div>
+          <span class="card-open">Open →</span>
+        </div>
+      </a>
+
+      <a class="card" href="projects/restraunt.html" target="_blank">
+        <div class="card-icon bg-orange">🍕</div>
+        <div class="card-body">
+          <div class="card-title">Restaurant Page</div>
+          <div class="card-desc">Restaurant website layout with menu and styling.</div>
+          <span class="card-open">Open →</span>
+        </div>
+      </a>
+
+      <a class="card" href="projects/Shivaji.html" target="_blank">
+        <div class="card-icon bg-amber">⚔️</div>
+        <div class="card-body">
+          <div class="card-title">Shivaji Page</div>
+          <div class="card-desc">Tribute page for Chhatrapati Shivaji Maharaj.</div>
+          <span class="card-open">Open →</span>
+        </div>
+      </a>
+
+      <a class="card" href="projects/Skills.html" target="_blank">
+        <div class="card-icon bg-teal">🛠️</div>
+        <div class="card-body">
+          <div class="card-title">Skills Page</div>
+          <div class="card-desc">Personal skills showcase with HTML & CSS.</div>
+          <span class="card-open">Open →</span>
+        </div>
+      </a>
+
+      <a class="card" href="projects/studentform.html" target="_blank">
+        <div class="card-icon bg-indigo">🎓</div>
+        <div class="card-body">
+          <div class="card-title">Student Form</div>
+          <div class="card-desc">Student registration form with styled fields.</div>
+          <span class="card-open">Open →</span>
+        </div>
+      </a>
+
+      <a class="card" href="projects/TableHome.html" target="_blank">
+        <div class="card-icon bg-gray">🗂️</div>
+        <div class="card-body">
+          <div class="card-title">Table Home</div>
+          <div class="card-desc">Homepage layout using HTML tables for structure.</div>
+          <span class="card-open">Open →</span>
+        </div>
+      </a>
+
+      <a class="card" href="projects/titles.html" target="_blank">
+        <div class="card-icon bg-pink">🔤</div>
+        <div class="card-body">
+          <div class="card-title">Titles</div>
+          <div class="card-desc">Typography practice with headings and text.</div>
+          <span class="card-open">Open →</span>
+        </div>
+      </a>
+
+      <a class="card" href="projects/touristhelper.html" target="_blank">
+        <div class="card-icon bg-sky">✈️</div>
+        <div class="card-body">
+          <div class="card-title">Tourist Helper</div>
+          <div class="card-desc">Travel guide page helping tourists explore.</div>
+          <span class="card-open">Open →</span>
+        </div>
+      </a>
+
+      <a class="card" href="projects/welcomejava.html" target="_blank">
+        <div class="card-icon bg-lime">👋</div>
+        <div class="card-body">
+          <div class="card-title">Welcome Java</div>
+          <div class="card-desc">Welcome page introducing Java concepts via HTML.</div>
+          <span class="card-open">Open →</span>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <div class="section-header">
+      <span class="section-badge badge-js">⚡ JavaScript</span>
+      <span class="section-count">5 projects</span>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="grid grid-js">
+
+      <a class="card" href="projects/count.html" target="_blank">
+        <div class="card-icon bg-green">🔢</div>
+        <div class="card-body">
+          <div class="card-title">Counter</div>
+          <div class="card-desc">Increment, decrement & reset with JS.</div>
+          <span class="card-open">Open →</span>
+        </div>
+      </a>
+
+      <a class="card" href="projects/calculator.html" target="_blank">
+        <div class="card-icon bg-blue">🧮</div>
+        <div class="card-body">
+          <div class="card-title">Calculator</div>
+          <div class="card-desc">Full arithmetic calculator built in JS.</div>
+          <span class="card-open">Open →</span>
+        </div>
+      </a>
+
+      <a class="card" href="projects/guess.html" target="_blank">
+        <div class="card-icon bg-orange">🎯</div>
+        <div class="card-body">
+          <div class="card-title">Guess the Number</div>
+          <div class="card-desc">Number guessing game with hints in JS.</div>
+          <span class="card-open">Open →</span>
+        </div>
+      </a>
+
+      <a class="card" href="projects/DynamicBody.html" target="_blank">
+        <div class="card-icon bg-purple">🎨</div>
+        <div class="card-body">
+          <div class="card-title">Dynamic Body</div>
+          <div class="card-desc">JS-powered dynamic style and content changes.</div>
+          <span class="card-open">Open →</span>
+        </div>
+      </a>
+
+      <a class="card" href="projects/Task.html" target="_blank">
+        <div class="card-icon bg-teal">✅</div>
+        <div class="card-body">
+          <div class="card-title">Task Manager</div>
+          <div class="card-desc">To-do app with JS DOM manipulation.</div>
+          <span class="card-open">Open →</span>
+        </div>
+      </a>
+
+    </div>
+
+  </div>
+
+</body>
+</html>
