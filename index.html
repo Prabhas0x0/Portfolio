@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+  
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -729,6 +730,73 @@
       }
     }
 
+
+    #es-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 240px;
+  height: 180px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid #0071e3;
+  background: #000;
+  box-shadow: 0 0 20px rgba(0, 113, 227, 0.4);
+  z-index: 10000;
+  display: none; /* Hidden until started */
+}
+
+#es-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: scaleX(-1); /* Mirror mode */
+}
+
+#es-video {
+  display: none; /* We draw the video onto the canvas instead */
+}
+
+.es-status-pill {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 4px 8px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #00ff00;
+  font-family: monospace;
+  font-size: 10px;
+  border-radius: 4px;
+  z-index: 10001;
+}
+
+#es-toggle-btn {
+  position: fixed;
+  bottom: 215px; /* Sits right above the webcam */
+  right: 20px;
+  padding: 10px 20px;
+  background: #0071e3;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  z-index: 10002;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: all 0.2s;
+}
+
+#es-toggle-btn.active {
+  background: #ff3b30; /* Red for "Stop" */
+}
+
+html {
+  scroll-behavior: auto !important; /* We handle the smoothness in JS */
+}
+
   </style>
 </head>
 
@@ -769,6 +837,13 @@
       </div>
 
     </div>
+    <button id="es-toggle-btn">Start Smart Scroll</button>
+
+  <div id="es-container">
+    <div class="es-status-pill">AI ACTIVE</div>
+    <canvas id="es-canvas"></canvas>
+    <video id="es-video" autoplay muted playsinline></video>
+  </div>
   </section>
 
 
@@ -983,6 +1058,7 @@
         </form>
 
       </div>
+
     </div>
   </section>
 
@@ -1003,5 +1079,239 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/vision_bundle.js"></script>
+
+
+  <script type="module">
+
+
+
+
+    import { FaceLandmarker, FilesetResolver, DrawingUtils } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/vision_bundle.js";
+
+    const video = document.getElementById("es-video");
+    const canvas = document.getElementById("es-canvas");
+    const ctx = canvas.getContext("2d");
+    const container = document.getElementById("es-container");
+    const toggleBtn = document.getElementById("es-toggle-btn");
+
+    let faceLandmarker;
+    let drawingUtils;
+    let lastVideoTime = -1;
+    let isScanning = false;
+    let scrollVelocity = 0;
+
+    async function initAI() {
+      const vision = await FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/wasm");
+      faceLandmarker = await FaceLandmarker.createFromOptions(vision, {
+        baseOptions: {
+          modelAssetPath: "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/latest/face_landmarker.task",
+          delegate: "GPU"
+        },
+        runningMode: "VIDEO",
+        numFaces: 1
+      });
+      drawingUtils = new DrawingUtils(ctx);
+      startCamera();
+    }
+
+    async function startCamera() {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        video.srcObject = stream;
+        video.onloadedmetadata = () => {
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          video.play();
+          renderLoop();
+        };
+      } catch (err) {
+        console.error("Camera error:", err);
+        alert("Please allow camera access to use Smart Scroll.");
+      }
+    }
+
+    toggleBtn.onclick = async () => {
+      isScanning = !isScanning;
+      if (isScanning) {
+        toggleBtn.textContent = 'Stop Smart Scroll';
+        toggleBtn.classList.add('active');
+        container.style.display = 'block';
+        if (!faceLandmarker) await initAI(); 
+      } else {
+        toggleBtn.textContent = 'Start Smart Scroll';
+        toggleBtn.classList.remove('active');
+        container.style.display = 'none';
+        scrollVelocity = 0;
+      }
+    };
+
+    function renderLoop() {
+      if (!isScanning) return; 
+
+      if (video.currentTime !== lastVideoTime) {
+        lastVideoTime = video.currentTime;
+        const results = faceLandmarker.detectForVideo(video, performance.now());
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.save();
+        ctx.scale(-1, 1);
+        ctx.translate(-canvas.width, 0);
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        
+        if (results.faceLandmarks && results.faceLandmarks[0]) {
+          const landmarks = results.faceLandmarks[0];
+          drawingUtils.drawConnectors(landmarks, FaceLandmarker.FACE_LANDMARKS_TESSELATION, { color: "#C0C0C070", lineWidth: 1 });
+          handleScrolling(landmarks);
+        }
+        ctx.restore();
+      }
+      requestAnimationFrame(renderLoop);
+    }
+
+    function handleScrolling(lm) {
+      const forehead = lm[10].y;
+      const chin = lm[152].y;
+      const nose = lm[1].y;
+      const ratio = (nose - forehead) / (chin - forehead);
+      const offset = ratio - 0.5;
+
+      if (Math.abs(offset) > 0.07) {
+        scrollVelocity = Math.min(scrollVelocity + 1.5, 30);
+        window.scrollBy(0, (offset > 0 ? 1 : -1) * scrollVelocity);
+      } else {
+        scrollVelocity = 0;
+      }
+    }
+  
+
+
+  </script>
+
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
